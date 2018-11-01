@@ -1,6 +1,6 @@
 - name: Ensure this is Red Hat
   assert:
-    that: "ansible_distribution == 'RedHat'"
+    that: "ansible_facts.distribution == 'RedHat'"
   tags:
     - rhsm
 
@@ -15,6 +15,10 @@
     - rhsm
     - rhsm_conf
 
-- import_tasks: "{{ rhsm_method | default('portal') }}.yml"
+- block:
+    - include_tasks: "{{ rhsm_method }}.yml"
   tags:
     - rhsm
+    - rhsm_register
+    - rhsm_repos
+    - rhsm_satellite
