@@ -5,6 +5,7 @@
     state: "{{ rhsm_state | default(omit) }}"
     autosubscribe: "{{ rhsm_autosubscribe | default(omit) }}"
     consumer_name: "{{ rhsm_consumer_hostname | default(omit) }}"
+    pool_ids: "{{ rhsm_pool_ids | default(omit) }}"
   tags:
     - rhsm
     - rhsm_register
