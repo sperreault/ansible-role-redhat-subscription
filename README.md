@@ -1,5 +1,5 @@
 Red Hat Subscription
-=========
+====================
 [![Galaxy](https://img.shields.io/badge/galaxy-openstack.redhat--subscription-blue.svg?style=flat)](https://galaxy.ansible.com/openstack/redhat-subscription)
 
 Manage Red Hat subscriptions and repositories. This role supports registering to Satellite 5, Satellite 6, or the Red Hat Customer Portal.
@@ -14,6 +14,7 @@ Provide `rhsm_username` and `rhsm_password` _or_ `rhsm_activation_key`. These op
 Role Variables
 --------------
 
+|-------------------|---------------------|----------------------|
 | Name              | Default Value       | Description          |
 |-------------------|---------------------|----------------------|
 | `rhsm_method` | `portal` | Method to use for activation: `portal` or `satellite`. If `satellite`, the role will determine the Satellite Server version and take the appropriate registration actions. |
@@ -26,7 +27,9 @@ Role Variables
 | `rhsm_autosubscribe` | `[undefined]` | Whether or not to autosubscribe to available repositories. |
 | `rhsm_consumer_hostname` | `[undefined]` | Name of the system to use when registering. Defaults to using the system hostname if undefined. |
 | `rhsm_force_register` | `False` | Whether or not to force registration. |
-| `rhsm_repos` | `[]` | The list of repositories to enable or disable. See `defaults/main.yml` for examples. |
+| `rhsm_repos` | `[]` | The list of repositories to enable or disable. |
+| `rhsm_repos_state` | `[undefined]` | The state of all repos in `rhsm_repos`. The module default is `enabled`.|
+| `rhsm_repos_purge` | `[undefined]` | Whether or not to disable repos not specified in `rhsm_repos`. The module default is `False`. |
 | `rhsm_rhsm_port` | `443` | Port to use when connecting to subscription server. |
 | `rhsm_server_hostname` | `subscription.rhn.redhat.com` | FQDN of subscription server. |
 | `rhsm_server_prefix` | `/subscription` or `/rhsm` | RHS server prefix. `/subscription` when using registering via `portal`, `/rhsm` when registering via `satellite`. |
@@ -59,19 +62,18 @@ None.
 Example Playbook
 ----------------
 
-    - hosts: all
+::
 
+    - hosts: all
       vars:
         rhsm_username: bob.smith@acme.com
         rhsm_password: "{{ vault_rhsm_password }}"
         rhsm_repos:
-          - name: rhel-7-server-extras-rpms
-            state: present
+          - rhel-7-server-extras-rpms
           - rhel-7-server-rh-common-rpms
           - rhel-7-server-openstack-8-rpms
-
       roles:
-         - openstack.redhat-subscription
+        - openstack.redhat-subscription
 
 License
 -------
