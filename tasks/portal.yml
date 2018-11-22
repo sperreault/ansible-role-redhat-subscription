@@ -28,7 +28,11 @@
         - name: Clean all local subscription data
           command: subscription-manager clean
 
-        - import_tasks: register.yml
+        - import_tasks: register-username.yml
+          when: rhsm_username is defined
+
+        - import_tasks: register-activation_key.yml
+          when: rhsm_activation_key is defined
 
 - name: Configure repository subscriptions
   rhsm_repository:
