@@ -1,5 +1,9 @@
 - block:
-    - import_tasks: register.yml
+    - import_tasks: register-username.yml
+      when: rhsm_username is defined
+
+    - import_tasks: register-activation_key.yml
+      when: rhsm_activation_key is defined
 
   rescue:
     - block:
@@ -34,7 +38,6 @@
   when:
     - rhsm_repos | length > 0
     - rhsm_state == 'present'
-    - rhsm_activation_key is not defined
   tags:
     - rhsm
     - rhsm_repos
